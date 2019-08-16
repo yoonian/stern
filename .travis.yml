@@ -36,5 +36,13 @@ before_script:
 # failing test, we want to see both. Configure golangci-lint with a
 # .golangci.yml file at the top level of your repo.
 script:
-  - golangci-lint run       # run a bunch of code checkers/linters in parallel
+  - golangci-lint run       # run a bunch of code checkers/lnters in parallel
   - go test -v -race ./...  # Run all the tests with the race detector enabled
+  - GOOS=linux GOARCH=amd64 go build -o stern_linux_amd64
+  - GOOS=linux GOARCH=386 go build -o stern_linux_386
+ 
+deploy:
+  provider: releases
+  file:
+  - stern_linux_amd64
+  - stern_linux_386
